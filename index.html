@@ -1,253 +1,393 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Metamorphosis</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metamorphosis — Culinary Capstone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1412;
+            --paper: #f7f4ef;
+            --rose: #c4a4a8;
+            --wine: #5c2a35;
+            --sage: #4a5d4e;
+            --gold: #b8956c;
+            --mist: #e8e4dc;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+        html { scroll-behavior: smooth; }
 
-<style>
-:root {
-  --bg: #0a0a0b;
-  --glass: rgba(255,255,255,0.05);
-  --accent: #d4af37;
-  --text: #f5f5f5;
-  --muted: #b0b0b0;
-}
+        body {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            background: var(--paper);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
 
-* { margin:0; padding:0; box-sizing:border-box; }
+        .font-display {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+        }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at top, #141414, #0a0a0b 60%);
-  color: var(--text);
-}
+        .section-panel {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 1.5rem;
+            scroll-margin-top: 4rem;
+        }
 
-/* HERO */
-.hero {
-  height: 100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
+        @media (min-width: 768px) {
+            .section-panel { padding: 5rem 3rem; }
+        }
 
-.hero::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  background:url("https://images.unsplash.com/photo-1504674900247-0877df9cc836") center/cover;
-  filter: brightness(0.4);
-}
+        .prose-wide {
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-.hero-content {
-  position:relative;
-  z-index:2;
-}
+        .prose-wide p + p { margin-top: 1.1em; }
 
-.hero h1 {
-  font-family:'Playfair Display', serif;
-  font-size:80px;
-  letter-spacing:3px;
-  background: linear-gradient(to right, #fff, var(--accent));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
+        .chapter-label {
+            letter-spacing: 0.35em;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--wine);
+            font-weight: 500;
+        }
 
-.hero p {
-  margin-top:20px;
-  color:var(--muted);
-  font-size:18px;
-}
+        .dish-card {
+            background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(92, 42, 53, 0.12);
+            box-shadow: 0 24px 48px rgba(26, 20, 18, 0.06);
+        }
 
-/* SECTION */
-section {
-  padding:100px 8%;
-  max-width:1300px;
-  margin:auto;
-}
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background: rgba(26, 20, 18, 0.2);
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+        .nav-dot:hover { background: var(--wine); transform: scale(1.15); }
+        .nav-dot.active { background: var(--wine); transform: scale(1.25); }
 
-.section-title {
-  font-family:'Playfair Display', serif;
-  font-size:42px;
-  margin-bottom:60px;
-}
+        .hero-gradient {
+            background:
+                radial-gradient(ellipse 120% 80% at 50% -20%, rgba(196, 164, 168, 0.35), transparent),
+                linear-gradient(180deg, var(--mist) 0%, var(--paper) 55%);
+        }
 
-/* GRID */
-.grid {
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap:30px;
-}
+        .butterfly-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            max-width: 120px;
+            margin: 1.5rem auto;
+        }
 
-/* CARD */
-.card {
-  position:relative;
-  height:420px;
-  border-radius:16px;
-  overflow:hidden;
-  background:var(--glass);
-  backdrop-filter: blur(12px);
-  cursor:pointer;
-  transition:0.5s;
-}
+        .next-btn {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--wine);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+        .next-btn:hover { border-color: var(--wine); }
 
-.card img {
-  position:absolute;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:0.6s;
-}
+        .img-wrap {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+        }
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-.card:hover img {
-  transform:scale(1.1);
-}
-
-/* OVERLAY */
-.overlay {
-  position:absolute;
-  inset:0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.85),
-    rgba(0,0,0,0.2)
-  );
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  padding:25px;
-}
-
-.overlay h3 {
-  font-family:'Playfair Display', serif;
-  font-size:22px;
-  color:var(--accent);
-}
-
-.overlay p {
-  font-size:14px;
-  color:var(--muted);
-  margin-top:8px;
-  opacity:0;
-  transform:translateY(10px);
-  transition:0.4s;
-}
-
-.card:hover .overlay p {
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* FINAL NOTE */
-.final {
-  text-align:center;
-}
-
-.final p {
-  max-width:700px;
-  margin:auto;
-  color:var(--muted);
-}
-
-/* FOOTER */
-.footer {
-  text-align:center;
-  padding:40px;
-  color:var(--muted);
-  border-top:1px solid rgba(255,255,255,0.08);
-}
-
-/* MOBILE */
-@media(max-width:768px){
-  .hero h1 { font-size:48px; }
-}
-</style>
+        #mobile-next-wrap {
+            padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-content">
-    <h1>Metamorphosis</h1>
-    <p>A journey of transformation through food</p>
-  </div>
-</div>
+    <!-- Progress: tap dots to jump -->
+    <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-3" id="chapter-nav" aria-label="Chapters">
+        <a href="#intro" class="nav-dot active" data-target="intro" title="Introduction"></a>
+        <a href="#egg" class="nav-dot" data-target="egg" title="Egg"></a>
+        <a href="#caterpillar" class="nav-dot" data-target="caterpillar" title="Caterpillar"></a>
+        <a href="#chrysalis" class="nav-dot" data-target="chrysalis" title="Chrysalis"></a>
+        <a href="#butterfly" class="nav-dot" data-target="butterfly" title="Butterfly"></a>
+        <a href="#landing" class="nav-dot" data-target="landing" title="First landing"></a>
+        <a href="#complexity" class="nav-dot" data-target="complexity" title="Complexity"></a>
+        <a href="#thanks" class="nav-dot" data-target="thanks" title="Thank you"></a>
+    </nav>
 
-<!-- DISHES -->
-<section>
-  <h2 class="section-title">The Experience</h2>
+    <!-- Hero -->
+    <header class="hero-gradient min-h-[88vh] flex flex-col items-center justify-center text-center px-6 pt-20 pb-12" id="top">
+        <p class="chapter-label mb-4" data-aos="fade-down">Culinary capstone</p>
+        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-[var(--ink)] mb-2" data-aos="fade-up">
+            Metamorphosis
+        </h1>
+        <div class="butterfly-line" data-aos="zoom-in" data-aos-delay="100"></div>
+        <p class="font-display text-xl md:text-2xl italic text-[var(--wine)] max-w-xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="150">
+            A quiet, beautiful transformation.
+        </p>
+        <a href="#intro" class="next-btn mt-16 inline-block" data-aos="fade" data-aos-delay="400">Begin — tap forward</a>
+    </header>
 
-  <div class="grid">
+    <main>
+        <!-- Introduction -->
+        <section class="section-panel border-t border-[var(--mist)]" id="intro">
+            <div class="max-w-3xl mx-auto w-full" data-aos="fade-up">
+                <p class="chapter-label mb-6">Introduction</p>
+                <div class="prose-wide text-base md:text-lg leading-relaxed text-stone-800">
+                    <p>This year, our theme is <span class="font-medium text-[var(--wine)]">Metamorphosis</span>. A quiet, beautiful transformation. The life cycle of a butterfly. It begins as something so small — an egg. Then it grows into a caterpillar, constantly feeding, changing, not quite knowing what it will become. After that comes the chrysalis stage, where everything slows down. Hidden. Still. But inside, everything is shifting. And finally… the butterfly emerges. Complete. Ready.</p>
+                    <p>This idea shaped everything you are about to see.</p>
+                    <p>Each dish in this experience reflects a stage of transformation. A moment in that journey. If you tap forward, you’ll discover how every plate connects to this theme — through ingredients, technique, and story.</p>
+                    <p>But this is not just about butterflies.</p>
+                    <p>Today is also a moment of change for all of us. As culinary students, this is our last day here. The end of something familiar. And maybe the beginning of something a little unknown too.</p>
+                    <p>In a way, we are all in our own metamorphosis.</p>
+                    <p>We came in learning, experimenting, making mistakes. Slowly growing. And now, we are stepping out, a little more ready than before. Ready to take that first flight, even if it feels uncertain.</p>
+                    <p>This is our tribute. To the journey. To the growth. And to everyone here who has been part of it.</p>
+                    <p class="font-display text-xl italic text-[var(--wine)]">Thank you for being here with us.</p>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="#egg" class="next-btn">Next: the egg</a>
+                </div>
+            </div>
+        </section>
 
-    <div class="card">
-      <img src="https://www.image2url.com/r2/default/images/1776877674097-2aa42202-ebf9-4d99-a537-16bbbdc7b528.jpg" alt="image" />
-      <div class="overlay">
-        <h3>Beet Cured Deviled Egg</h3>
-        <p>The beginning — delicate, forming, evolving.</p>
-      </div>
+        <!-- Dish 1: Egg -->
+        <section class="section-panel bg-[var(--mist)]/40" id="egg">
+            <div class="max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+                <div class="img-wrap rounded-sm shadow-lg order-2 md:order-1" data-aos="fade-right">
+                    <img src="https://www.image2url.com/r2/default/images/1776877674097-2aa42202-ebf9-4d99-a537-16bbbdc7b528.jpg" alt="Beet Cured Deviled Egg" width="900" height="675" loading="lazy">
+                </div>
+                <div class="order-1 md:order-2" data-aos="fade-left">
+                    <p class="chapter-label mb-3">Stage one — the egg</p>
+                    <h2 class="font-display text-4xl md:text-5xl font-semibold text-[var(--ink)] mb-4">Beet Cured Deviled Egg</h2>
+                    <div class="dish-card rounded-sm p-6 md:p-8 space-y-4 text-stone-700 leading-relaxed">
+                        <p>Our first dish begins at the very start — the egg stage.</p>
+                        <p>The egg white is cured in beetroot and red wine, giving it a subtle pickled flavour and a soft pink hue. Inside, the yolk is rich and creamy, blended with cheese for depth and smoothness. It’s finished with dill salt and toasted pistachio, adding freshness and a gentle crunch.</p>
+                        <p>Visually, it’s delicate. Light. Almost quiet.</p>
+                        <p class="font-display italic text-[var(--wine)] text-lg">This dish represents the very beginning of transformation — just like the first day of a student. New, unaware, still forming. Not knowing what’s ahead, but already in the process of becoming.</p>
+                    </div>
+                    <div class="text-center md:text-left mt-8">
+                        <a href="#caterpillar" class="next-btn">Next: the caterpillar</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dish 2: Caterpillar -->
+        <section class="section-panel" id="caterpillar">
+            <div class="max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+                <div data-aos="fade-right">
+                    <p class="chapter-label mb-3">Stage two — the caterpillar</p>
+                    <h2 class="font-display text-4xl md:text-5xl font-semibold text-[var(--ink)] mb-4">Carrot Mosaic Terrine</h2>
+                    <div class="dish-card rounded-sm p-6 md:p-8 space-y-4 text-stone-700 leading-relaxed">
+                        <p>The next stage — the caterpillar.</p>
+                        <p>This terrine is shaped to resemble a caterpillar, symbolizing growth and constant movement. The carrot mosaic terrine is structured yet delicate, paired with a cauliflower porcini sauce that adds depth and earthiness. Sauce brings freshness and a slight bite, while the candied hazelnut salad adds sweetness and crunch. Yellow mustard pickles cut through with a sharp acidity.</p>
+                        <p>It’s more developed. More active.</p>
+                        <p class="font-display italic text-[var(--wine)] text-lg">Like a culinary student in the middle of the journey — learning fast, experimenting, making mistakes, but growing every single day.</p>
+                    </div>
+                    <div class="text-center md:text-left mt-8">
+                        <a href="#chrysalis" class="next-btn">Next: the chrysalis</a>
+                    </div>
+                </div>
+                <div class="img-wrap rounded-sm shadow-lg" data-aos="fade-left">
+                    <img src="https://www.image2url.com/r2/default/images/1776877997041-e8e727d9-4f64-4943-a355-d207a0fc4826.jpg" alt="Carrot Mosaic Terrine" width="900" height="675" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- Dish 3: Chrysalis -->
+        <section class="section-panel bg-[var(--mist)]/40" id="chrysalis">
+            <div class="max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+                <div class="img-wrap rounded-sm shadow-lg order-2 md:order-1" data-aos="fade-right">
+                    <img src="https://www.image2url.com/r2/default/images/1776878076613-7eede497-3952-4749-9e6a-2c9eb29c3e01.jpg" alt="Smoked Salmon Mousse" width="900" height="675" loading="lazy">
+                </div>
+                <div class="order-1 md:order-2" data-aos="fade-left">
+                    <p class="chapter-label mb-3">Stage three — the chrysalis</p>
+                    <h2 class="font-display text-4xl md:text-5xl font-semibold text-[var(--ink)] mb-4">Smoked Salmon Mousse</h2>
+                    <div class="dish-card rounded-sm p-6 md:p-8 space-y-4 text-stone-700 leading-relaxed">
+                        <p>The next stage — the chrysalis.</p>
+                        <p>This dish is rich and layered. A smoked salmon mousse forms the base, smooth and deeply flavoured, topped with an even creamier, cheesy mousse. A hint of lemon zest cuts through the richness, while pickled red onions on top add sharpness and balance.</p>
+                        <p>It’s a stage of quiet transformation.</p>
+                        <p class="font-display italic text-[var(--wine)] text-lg">Like college life when things start getting serious. Less chaos, more focus. You’re still figuring things out, but something is changing inside. Slowly becoming more refined, more sure — even if it’s not fully visible yet.</p>
+                    </div>
+                    <div class="text-center md:text-left mt-8">
+                        <a href="#butterfly" class="next-btn">Next: the butterfly</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dish 4: Butterfly -->
+        <section class="section-panel" id="butterfly">
+            <div class="max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+                <div data-aos="fade-right">
+                    <p class="chapter-label mb-3">Stage four — the butterfly</p>
+                    <h2 class="font-display text-4xl md:text-5xl font-semibold text-[var(--ink)] mb-4">Butterfly Shrimp Bisque</h2>
+                    <div class="dish-card rounded-sm p-6 md:p-8 space-y-4 text-stone-700 leading-relaxed">
+                        <p>The final stage — the butterfly.</p>
+                        <p>A grilled butterfly shrimp, marinated and full of flavour, served with a rich, velvety shrimp bisque. Alongside, a light frisée salad with honey thyme vinaigrette adds freshness and balance to the dish.</p>
+                        <p>It’s complete. Open. Confident.</p>
+                        <p class="font-display italic text-[var(--wine)] text-lg">Like us, at the end of this journey. No longer just learning, but ready. Ready to step out, take risks, and finally take that first flight.</p>
+                    </div>
+                    <div class="text-center md:text-left mt-8">
+                        <a href="#landing" class="next-btn">Next: the first landing</a>
+                    </div>
+                </div>
+                <div class="img-wrap rounded-sm shadow-lg" data-aos="fade-left">
+                    <img src="https://www.image2url.com/r2/default/images/1776878128471-816a40d3-b62a-4632-9a4e-7341dff456c3.jpg" alt="Butterfly Shrimp Bisque" width="900" height="675" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- Dish 5: Landing / Flower -->
+        <section class="section-panel bg-[var(--mist)]/40" id="landing">
+            <div class="max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+                <div class="img-wrap rounded-sm shadow-lg order-2 md:order-1" data-aos="fade-right">
+                    <img src="https://www.image2url.com/r2/default/images/1776878404817-b72b9c25-436e-4f63-84b5-a791268ccad0.jpg" alt="Beetroot Carpaccio" width="900" height="675" loading="lazy">
+                </div>
+                <div class="order-1 md:order-2" data-aos="fade-left">
+                    <p class="chapter-label mb-3">The moment after — the first landing</p>
+                    <h2 class="font-display text-4xl md:text-5xl font-semibold text-[var(--ink)] mb-4">Beetroot Carpaccio</h2>
+                    <div class="dish-card rounded-sm p-6 md:p-8 space-y-4 text-stone-700 leading-relaxed">
+                        <p>A delicate beetroot carpaccio, finished with a balsamic glaze, crushed hazelnuts, and a smooth goat cheese sphere. Topped with a light shaved fennel salad, it’s fresh, balanced, and slightly earthy. This dish represents the flower — where the butterfly takes its first pause after flight.</p>
+                        <p class="font-display italic text-[var(--wine)] text-lg">Like us, stepping into the real world. Not just flying, but finding where we belong. Settling, exploring, and starting to build something of our own.</p>
+                    </div>
+                    <div class="text-center md:text-left mt-8">
+                        <a href="#complexity" class="next-btn">Next: complexity</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dish 6: Pork Confit -->
+        <section class="section-panel" id="complexity">
+            <div class="max-w-5xl mx-auto w-full grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+                <div data-aos="fade-right">
+                    <p class="chapter-label mb-3">The final expression — complexity</p>
+                    <h2 class="font-display text-4xl md:text-5xl font-semibold text-[var(--ink)] mb-4">Pork Confit</h2>
+                    <div class="dish-card rounded-sm p-6 md:p-8 space-y-4 text-stone-700 leading-relaxed">
+                        <p>A slow-poached pork confit, tender and rich, served with glazed baby carrots, smooth parsnip purée, and a sharp raspberry gastrique to balance it all.</p>
+                        <p>This dish reflects the deeper stage of transformation.</p>
+                        <p class="font-display italic text-[var(--wine)] text-lg">Like adulthood. More layered, more demanding, but also more refined. Like a butterfly that has flown, struggled, and now understands how to navigate the world — with strength, balance, and purpose.</p>
+                    </div>
+                    <div class="text-center md:text-left mt-8">
+                        <a href="#thanks" class="next-btn">Final note</a>
+                    </div>
+                </div>
+                <div class="img-wrap rounded-sm shadow-lg" data-aos="fade-left">
+                    <img src="https://www.image2url.com/r2/default/images/1776878632155-c4ba03b0-8518-4850-885f-1429188949eb.jpg" alt="Pork Confit" width="900" height="675" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- Final note / Thanks -->
+        <section class="section-panel bg-[var(--wine)] text-[var(--paper)] min-h-[85vh]" id="thanks">
+            <div class="max-w-3xl mx-auto w-full text-center md:text-left" data-aos="fade-up">
+                <p class="text-[var(--rose)] chapter-label mb-6" style="color: rgba(247,244,239,0.7);">Final note</p>
+                <h2 class="font-display text-3xl md:text-4xl font-medium mb-8 leading-snug">We are two international students who came here with nothing but space to grow, learn, and become.</h2>
+                <div class="space-y-5 text-[var(--paper)]/90 leading-relaxed text-base md:text-lg font-light border-t border-white/15 pt-8">
+                    <p>This journey was never just about food. It was about people. About patience. About being shaped, slowly, by every service, every mistake, every long day in the kitchen.</p>
+                    <p>We want to sincerely thank <span class="font-medium text-white">Chef Amede</span> for the constant support and belief in us, and for making this event possible in ways we might not even fully see. A heartfelt thank you as well to <span class="font-medium text-white">Professor Cora</span>, for guiding us through the event planning and helping us bring structure to something that once only existed as an idea.</p>
+                    <p>To all the chefs and instructors who have supported us over the past few years — thank you. Every lesson, every correction, every push mattered more than we can explain.</p>
+                    <p>If you’ve made it through this experience with us, thank you for being part of our story.</p>
+                    <p>We hope, truly, that you enjoyed our food — and understood the thought, care, and meaning behind every plate.</p>
+                    <p class="font-display text-2xl md:text-3xl italic text-[var(--gold)] pt-4">This was our metamorphosis.</p>
+                </div>
+                <div class="mt-14">
+                    <a href="#top" class="next-btn text-[var(--paper)]/80 hover:text-white border-white/30">Back to top</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-8 text-center text-xs tracking-widest uppercase text-stone-500 bg-[var(--mist)]/50 pb-24 md:pb-8">
+        Metamorphosis — culinary students capstone
+    </footer>
+
+    <!-- Mobile: tap forward -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 px-4 pt-4 bg-[var(--paper)]/95 backdrop-blur border-t border-[var(--mist)]" id="mobile-next-wrap">
+        <button type="button" id="mobile-next" class="w-full py-3 text-center text-[0.65rem] tracking-[0.25em] uppercase text-[var(--wine)] border border-[var(--wine)]/25 rounded-sm font-medium active:bg-[var(--mist)]">
+            Next chapter
+        </button>
     </div>
 
-    <div class="card">
-      <img src="https://www.image2url.com/r2/default/images/1776877997041-e8e727d9-4f64-4943-a355-d207a0fc4826.jpg" alt="image" />
-      <div class="overlay">
-        <h3>Carrot Mosaic Terrine</h3>
-        <p>Growth — structure, movement, transformation.</p>
-      </div>
-    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 900, once: true, offset: 60 });
 
-    <div class="card">
-      <img src="https://www.image2url.com/r2/default/images/1776878076613-7eede497-3952-4749-9e6a-2c9eb29c3e01.jpg" alt="image" />
-      <div class="overlay">
-        <h3>Smoked Salmon Mousse</h3>
-        <p>Refinement — quiet internal change.</p>
-      </div>
-    </div>
+        (function () {
+            var dots = document.querySelectorAll('#chapter-nav .nav-dot');
+            var ids = Array.prototype.map.call(dots, function (a) { return a.getAttribute('data-target'); });
 
-    <div class="card">
-      <img src="https://www.image2url.com/r2/default/images/1776878128471-816a40d3-b62a-4632-9a4e-7341dff456c3.jpg" alt="image" />
-      <div class="overlay">
-        <h3>Butterfly Shrimp Bisque</h3>
-        <p>Becoming — open, confident, complete.</p>
-      </div>
-    </div>
+            function setActive() {
+                var mid = window.scrollY + window.innerHeight * 0.35;
+                var best = 0;
+                for (var i = 0; i < ids.length; i++) {
+                    var el = document.getElementById(ids[i]);
+                    if (!el) continue;
+                    var top = el.offsetTop;
+                    if (top <= mid) best = i;
+                }
+                dots.forEach(function (d, j) {
+                    d.classList.toggle('active', j === best);
+                });
+            }
 
-    <div class="card">
-      <img src="https://www.image2url.com/r2/default/images/1776878404817-b72b9c25-436e-4f63-84b5-a791268ccad0.jpg" alt="image" />
-      <div class="overlay">
-        <h3>Beetroot Carpaccio</h3>
-        <p>First landing — balance and discovery.</p>
-      </div>
-    </div>
+            window.addEventListener('scroll', setActive, { passive: true });
+            setActive();
+        })();
 
-    <div class="card">
-      <img src="https://www.image2url.com/r2/default/images/1776878632155-c4ba03b0-8518-4850-885f-1429188949eb.jpg" alt="image" />
-      <div class="overlay">
-        <h3>Pork Confit</h3>
-        <p>Complexity — depth, maturity, mastery.</p>
-      </div>
-    </div>
+        (function () {
+            var order = ['top', 'intro', 'egg', 'caterpillar', 'chrysalis', 'butterfly', 'landing', 'complexity', 'thanks'];
+            var btn = document.getElementById('mobile-next');
+            var wrap = document.getElementById('mobile-next-wrap');
+            if (!btn || !wrap) return;
 
-  </div>
-</section>
+            function currentIndex() {
+                var y = window.scrollY + window.innerHeight * 0.25;
+                var best = 0;
+                for (var i = 0; i < order.length; i++) {
+                    var el = document.getElementById(order[i]);
+                    if (!el) continue;
+                    if (el.offsetTop <= y) best = i;
+                }
+                return best;
+            }
 
-<!-- FINAL -->
-<section class="final">
-  <h2 class="section-title">Final Note</h2>
-  <p>
-    This journey was never just about food. It was about growth, patience, and becoming.
-    Thank you for being part of our metamorphosis.
-  </p>
-</section>
+            function updateMobileBtn() {
+                var i = currentIndex();
+                if (i >= order.length - 1) {
+                    wrap.style.display = 'none';
+                } else {
+                    wrap.style.display = 'block';
+                }
+            }
 
-<div class="footer">
-© 2026 Metamorphosis Experience
-</div>
+            btn.addEventListener('click', function () {
+                var i = currentIndex();
+                var next = order[Math.min(i + 1, order.length - 1)];
+                var el = document.getElementById(next);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            });
 
+            window.addEventListener('scroll', updateMobileBtn, { passive: true });
+            window.addEventListener('resize', updateMobileBtn);
+            updateMobileBtn();
+        })();
+    </script>
 </body>
 </html>
