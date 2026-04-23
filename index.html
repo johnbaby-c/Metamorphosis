@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metamorphosis</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0a0a0b;
+  --glass: rgba(255,255,255,0.05);
+  --accent: #d4af37;
+  --text: #f5f5f5;
+  --muted: #b0b0b0;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top, #141414, #0a0a0b 60%);
+  color: var(--text);
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url("https://images.unsplash.com/photo-1504674900247-0877df9cc836") center/cover;
+  filter: brightness(0.4);
+}
+
+.hero-content {
+  position:relative;
+  z-index:2;
+}
+
+.hero h1 {
+  font-family:'Playfair Display', serif;
+  font-size:80px;
+  letter-spacing:3px;
+  background: linear-gradient(to right, #fff, var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.hero p {
+  margin-top:20px;
+  color:var(--muted);
+  font-size:18px;
+}
+
+/* SECTION */
+section {
+  padding:100px 8%;
+  max-width:1300px;
+  margin:auto;
+}
+
+.section-title {
+  font-family:'Playfair Display', serif;
+  font-size:42px;
+  margin-bottom:60px;
+}
+
+/* GRID */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap:30px;
+}
+
+/* CARD */
+.card {
+  position:relative;
+  height:420px;
+  border-radius:16px;
+  overflow:hidden;
+  background:var(--glass);
+  backdrop-filter: blur(12px);
+  cursor:pointer;
+  transition:0.5s;
+}
+
+.card img {
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:0.6s;
+}
+
+.card:hover img {
+  transform:scale(1.1);
+}
+
+/* OVERLAY */
+.overlay {
+  position:absolute;
+  inset:0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.85),
+    rgba(0,0,0,0.2)
+  );
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:25px;
+}
+
+.overlay h3 {
+  font-family:'Playfair Display', serif;
+  font-size:22px;
+  color:var(--accent);
+}
+
+.overlay p {
+  font-size:14px;
+  color:var(--muted);
+  margin-top:8px;
+  opacity:0;
+  transform:translateY(10px);
+  transition:0.4s;
+}
+
+.card:hover .overlay p {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* FINAL NOTE */
+.final {
+  text-align:center;
+}
+
+.final p {
+  max-width:700px;
+  margin:auto;
+  color:var(--muted);
+}
+
+/* FOOTER */
+.footer {
+  text-align:center;
+  padding:40px;
+  color:var(--muted);
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .hero h1 { font-size:48px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>Metamorphosis</h1>
+    <p>A journey of transformation through food</p>
+  </div>
+</div>
+
+<!-- DISHES -->
+<section>
+  <h2 class="section-title">The Experience</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1604908176997-4316c288032e">
+      <div class="overlay">
+        <h3>Beet Cured Deviled Egg</h3>
+        <p>The beginning — delicate, forming, evolving.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1546069901-eacef0df6022">
+      <div class="overlay">
+        <h3>Carrot Mosaic Terrine</h3>
+        <p>Growth — structure, movement, transformation.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1553621042-f6e147245754">
+      <div class="overlay">
+        <h3>Smoked Salmon Mousse</h3>
+        <p>Refinement — quiet internal change.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://ibb.co/zT4fMhmn">
+      <div class="overlay">
+        <h3>Butterfly Shrimp Bisque</h3>
+        <p>Becoming — open, confident, complete.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd">
+      <div class="overlay">
+        <h3>Beetroot Carpaccio</h3>
+        <p>First landing — balance and discovery.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
+      <div class="overlay">
+        <h3>Pork Confit</h3>
+        <p>Complexity — depth, maturity, mastery.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="final">
+  <h2 class="section-title">Final Note</h2>
+  <p>
+    This journey was never just about food. It was about growth, patience, and becoming.
+    Thank you for being part of our metamorphosis.
+  </p>
+</section>
+
+<div class="footer">
+© 2026 Metamorphosis Experience
+</div>
+
+</body>
+</html>
